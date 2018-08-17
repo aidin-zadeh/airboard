@@ -6,7 +6,8 @@
 ## Methodology
 
 ## Data
-
+- [T-100 Domestic Market (All Carriers)](https://www.transtats.bts.gov/DL_SelectFields.asp): This table contains domestic market data reported by both U.S. and foreign air carriers, including carrier, origin, destination, and service class for enplaned passengers, freight and mail when both origin and destination airports are located within the boundaries of the United States and its territories. For a uniform end date for the combined databases, the last 3 months U.S. carrier domestic data released in T-100 Domestic Market (U.S. Carriers Only) are not included.
+- [Master Coordinate](https://www.transtats.bts.gov/DL_SelectFields.asp): This table contains historical (time-based) information on airports used throughout the aviation databases. It provides a list of domestic and foreign airport codes and their associated world area code, country information, state information (if applicable), city name, airport name, city market information, and latitude and longitude information.
 ## Report
 
 ## Requirements
@@ -52,6 +53,7 @@ conda env create --name <new-env-name> -f conda-airboard.yml
 python run.py
 ```
 ## References
+- [Bureau of Transportation Statistics](https://www.bts.gov/)
 
 ## To Do
 - [ ] TBA
