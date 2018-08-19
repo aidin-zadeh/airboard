@@ -1,7 +1,7 @@
 
 
 var fmap = L.map("at-flowmap")
-    .setView([51.505, -0.09], 13);
+    .setView([30.26, -97.74], 13);
 
 
 
@@ -9,7 +9,7 @@ function create_map() {
     accessToken = "pk.eyJ1IjoiYWlkaW5yYWFkIiwiYSI6ImNqa2l4cGk5bjVwZmszbG1sNTU2Nmh5ZjUifQ.oFfyS5HN-ru_gAI7eo_AKg";
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
+        maxZoom: 15,
         id: 'mapbox.streets',
         accessToken: accessToken
     }).addTo(fmap);
@@ -23,13 +23,80 @@ function render_map(error, response) {
     console.log(response)
 }
 
+function parse_request_url(year, month=null, origin=null, dest=null, carrier=null) {
 
-let year = 2018;
+    // set base url
+    var request_url = `/data/market_domestic.json/${year}`;
 
-create_map()
+    // parse params
+    let params = [];
 
-d3.json("/data/market/domestic/all/2018", function (error, response) {
-    console.log(response)
+    // parse month
+    if (month != null) params.push(`month=${month}`);
+
+    // parse origin airport parameters
+    if ("country" in origin) params.push(`origin_country=${origin.country}`);
+    if ("state" in origin) params.push(`origin_state=${origin.state}`);
+    if ("city" in origin) params.push(`origin_city=${origin.city}`);
+
+    // parse origin destination parameters
+    if ("country" in dest) params.push(`dest_country=${dest.country}`);
+    if ("state" in dest) params.push(`dest_state=${dest.state}`);
+    if ("city" in dest) params.push(`dest_city=${dest.city}`);
+
+    // parse carrier
+    if ("name" in carrier) params.push(`carrier_name=${carrier.name}`);
+
+    if (params.length === 0) {
+        return request_url
+    } else if (params.length === 1){
+        return `${request_url}?` + params[0];
+    } else if (params.length > 1) {
+        return `${request_url}?` + params.join("&");
+    }
+}
+
+create_map();
+
+let year = 2017;
+let month = 11;
+let origin = {city: "Austin", state:"TX"};
+let dest = {};
+let carrier = {};
+
+let request_url = parse_request_url(year, month, origin, dest, carrier);
+
+console.log("request url= ", request_url);
+
+d3.json(request_url, function (error, response) {
+    console.log(response[0]);
+
+
+    var Geodesic = L.geodesic([], {
+	    weight: 1,
+	    opacity: 0.5,
+	    color: 'blue',
+	    steps: 30
+    }).addTo(fmap);
+
+
+    let origin_latlng, dest_latlng;
+    let latlng = [];
+
+    for (let i=0; i<response.length; i++) {
+        // console.log(i);
+        origin_latlng = new L.LatLng(
+            response[i]["ORIGIN_LATITUDE"],
+            response[i]["ORIGIN_LONGITUDE"]);
+        dest_latlng = new L.LatLng(
+            response[i]["DEST_LATITUDE"],
+            response[i]["DEST_LONGITUDE"]);
+
+        latlng.push([origin_latlng, dest_latlng]);
+        Geodesic.setLatLngs(latlng);
+    }
 });
+
+
 
 

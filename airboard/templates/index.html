@@ -24,6 +24,14 @@
     <link href="../static/css/sb-admin.css" rel="stylesheet">
     <link href="../static/css/custom.css" rel="stylesheet">
 
+    <!-- Leaflet core css -->
+    <link href="../static/vendor/leaflet/leaflet.css" rel="stylesheet">
+
+
+    <!-- Leaflet JS source -->
+    <script src="../static/vendor/leaflet/leaflet.js"></script>
+    <script src="../static/vendor/leaflet/Leaflet.Geodesic.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -31,7 +39,7 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
     <a class="navbar-brand mr-1" href="index.html">
-        <h3 class="yellow-h4"><span class="blue-h4">Air </span>Board</h3>
+        <h3 class="yellow-h4"><span class="blue-h4">Air</span>Board</h3>
         <!--Air Board-->
     </a>
 
@@ -143,6 +151,16 @@
             </ol>
 
 
+            <!-- Flowmap -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-area"></i>
+                    Area Chart Example</div>
+                <div class="card-body">
+                    <div id="at-flowmap" width="100%" height="200"></div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
             <!-- Area Chart Example-->
             <div class="card mb-3">
                 <div class="card-header">
@@ -692,8 +710,12 @@
 <script src="../static/vendor/jquery/jquery.min.js"></script>
 <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+
 <!-- Core plugin JavaScript-->
 <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- d3 core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
 
 <!-- Page level plugin JavaScript-->
 <script src="../static/vendor/chart.js/Chart.min.js"></script>
@@ -702,10 +724,12 @@
 
 <!-- Custom scripts for all pages-->
 <script src="../static/js/sb-admin.min.js"></script>
+<script src="../static/js/render_flowmap.js"></script>
 
 <!-- Demo scripts for this page-->
 <script src="../static/js/demo/datatables-demo.js"></script>
 <script src="../static/js/demo/chart-area-demo.js"></script>
+
 
 </body>
 
