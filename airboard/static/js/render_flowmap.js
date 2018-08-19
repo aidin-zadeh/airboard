@@ -35,17 +35,17 @@ function parse_request_url(year, month=null, origin=null, dest=null, carrier=nul
     if (month != null) params.push(`month=${month}`);
 
     // parse origin airport parameters
-    if ("country" in origin) params.push(`origin_country=${origin.country}`);
-    if ("state" in origin) params.push(`origin_state=${origin.state}`);
-    if ("city" in origin) params.push(`origin_city=${origin.city}`);
+    if ("country" in origin && origin.country != null) params.push(`origin_country=${origin.country}`);
+    if ("state" in origin && origin.state != null) params.push(`origin_state=${origin.state}`);
+    if ("city" in origin && origin.city != null) params.push(`origin_city=${origin.city}`);
 
     // parse origin destination parameters
-    if ("country" in dest) params.push(`dest_country=${dest.country}`);
-    if ("state" in dest) params.push(`dest_state=${dest.state}`);
-    if ("city" in dest) params.push(`dest_city=${dest.city}`);
+    if ("country" in dest && dest.country != null) params.push(`dest_country=${dest.country}`);
+    if ("state" in dest && dest.state != null) params.push(`dest_state=${dest.state}`);
+    if ("city" in dest && dest.city != null) params.push(`dest_city=${dest.city}`);
 
     // parse carrier
-    if ("name" in carrier) params.push(`carrier_name=${carrier.name}`);
+    if ("name" in carrier && carrier.name != null) params.push(`carrier_name=${carrier.name}`);
 
     if (params.length === 0) {
         return request_url
@@ -60,9 +60,9 @@ create_map();
 
 let year = 2017;
 let month = 11;
-let origin = {city: "Austin", state:"TX"};
-let dest = {};
-let carrier = {};
+let origin = {city: "Austin", state:"TX", country: null};
+let dest = {city: null, state: null, Country: null};
+let carrier = {name: null};
 
 let request_url = parse_request_url(year, month, origin, dest, carrier);
 
