@@ -19,6 +19,7 @@ pandas          0.23.4
 jupyter         1.0.0
 notebook        5.6.0
 nb_conda        2.2.1
+sqlalchemy      1.2.10
 
 ## Directory Structure
 ```

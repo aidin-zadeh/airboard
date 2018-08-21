@@ -95,8 +95,6 @@ def get_state_stats(year):
                              carrier=carrier,
                              sort_by=None)
 
-    ti
-
     return jsonify(d)
 
 
