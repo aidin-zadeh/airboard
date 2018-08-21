@@ -5,10 +5,14 @@ from flask import (
     Response,
     request,
     jsonify)
-from airboard import app
-from airboard.data import read_csv
-import pprint
 
+from airboard import app
+from airboard.data import (
+    read_csv,
+    query_stats_by_state,
+    )
+import pprint
+from time import time
 
 # get project root dir
 CURR_DIR = os.path.dirname(inspect.getabsfile(inspect.currentframe()))
@@ -23,7 +27,7 @@ def home():
 
 
 @app.route("/data/market_domestic.json/<year>")
-def get_by_year(year):
+def read_csc(year):
 
     # parse month
     month = [request.args.get("month", default=None, type=int)]
@@ -44,7 +48,6 @@ def get_by_year(year):
     carrier = dict()
     carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
 
-
     print("month = ", month)
     print("origin:")
     pprint.pprint(origin)
@@ -52,7 +55,6 @@ def get_by_year(year):
     pprint.pprint(dest)
     print("carrier:")
     pprint.pprint(carrier)
-
 
     json = read_csv(year=year,
                     month=month,
@@ -63,5 +65,41 @@ def get_by_year(year):
     return Response(json,
                     status=200,
                     mimetype="application/json")
+
+
+@app.route("/data/state/market_domestic_stats.json/<year>")
+def get_state_stats(year):
+
+    # parse month
+    month = [request.args.get("month", default=None, type=int)]
+
+    # parse origin airport paramters
+    origin = dict()
+    origin.update({"country": [request.args.get('origin_country', default=None, type=str)]})
+    origin.update({"state_code": [request.args.get('origin_state', default=None, type=str)]})
+    origin.update({"city": [request.args.get('origin_city', default=None, type=str)]})
+
+    # parse destination airport parameter
+    dest = dict()
+    dest.update({"country": [request.args.get('dest_country', default=None, type=str)]})
+    dest.update({"state_code": [request.args.get('dest_state', default=None, type=str)]})
+    dest.update({"city": [request.args.get('dest_city', default=None, type=str)]})
+
+    # parse career
+    carrier = dict()
+    carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
+
+    d = query_stats_by_state(year=year,
+                             origin=origin,
+                             dest=dest,
+                             carrier=carrier,
+                             sort_by=None)
+
+    ti
+
+    return jsonify(d)
+
+
+
 
 
