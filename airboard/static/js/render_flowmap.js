@@ -1,3 +1,4 @@
+accessToken = "pk.eyJ1IjoiYWlkaW5yYWFkIiwiYSI6ImNqa2l4cGk5bjVwZmszbG1sNTU2Nmh5ZjUifQ.oFfyS5HN-ru_gAI7eo_AKg";
 
 
 var fmap = L.map("at-flowmap")
@@ -6,10 +7,10 @@ var fmap = L.map("at-flowmap")
 
 
 function create_map() {
-    accessToken = "pk.eyJ1IjoiYWlkaW5yYWFkIiwiYSI6ImNqa2l4cGk5bjVwZmszbG1sNTU2Nmh5ZjUifQ.oFfyS5HN-ru_gAI7eo_AKg";
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 15,
+    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png?access_token={accessToken}', {
+       	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+        // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 5,
         id: 'mapbox.streets',
         accessToken: accessToken
     }).addTo(fmap);
@@ -73,7 +74,7 @@ d3.json(request_url, function (error, response) {
 
 
     var Geodesic = L.geodesic([], {
-	    weight: 1,
+	    weight: 2,
 	    opacity: 0.5,
 	    color: 'blue',
 	    steps: 30
@@ -83,7 +84,9 @@ d3.json(request_url, function (error, response) {
     let origin_latlng, dest_latlng;
     let latlng = [];
 
-    for (let i=0; i<response.length; i++) {
+    let n_geodesics = response.length;
+    // n_geodesics = 10;
+    for (let i=0; i<n_geodesics; i++) {
         // console.log(i);
         origin_latlng = new L.LatLng(
             response[i]["ORIGIN_LATITUDE"],
