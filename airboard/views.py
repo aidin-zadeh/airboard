@@ -26,6 +26,8 @@ CURR_DIR = os.path.dirname(inspect.getabsfile(inspect.currentframe()))
 ROOT_DIR = os.path.dirname(CURR_DIR)
 
 
+TOPN = 5
+
 @app.teardown_request
 def remove_session(ex=None):
     session.remove()
@@ -209,7 +211,6 @@ def get_state_topn_outgoing_stats(year, state_code, sort_by):
     carrier.update({"code": [request.args.get("carrier_code", default=None, type=str)]})
     carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
 
-    topn = 10
     d = query_topn_outgoing_by_state(year=year,
                                      state_code=state_code,
                                      sort_by=sort_by,
@@ -217,7 +218,7 @@ def get_state_topn_outgoing_stats(year, state_code, sort_by):
                                      origin=origin,
                                      dest=dest,
                                      carrier=carrier,
-                                     topn=topn)
+                                     topn=TOPN)
 
     return jsonify(d)
 
@@ -247,7 +248,6 @@ def get_city_topn_outgoing_stats(year, city, sort_by):
     carrier.update({"code": [request.args.get("carrier_code", default=None, type=str)]})
     carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
 
-    topn = 10
     d = query_topn_outgoing_by_city(year=year,
                                     city=city,
                                     sort_by=sort_by,
@@ -255,9 +255,10 @@ def get_city_topn_outgoing_stats(year, city, sort_by):
                                     origin=origin,
                                     dest=dest,
                                     carrier=carrier,
-                                    topn=topn)
+                                    topn=TOPN)
 
     return jsonify(d)
+
 
 
 @app.route("/data/airport/out/topn_stats.json/<year>/<airport_code>/<sort_by>")
@@ -285,7 +286,6 @@ def get_airport_topn_outgoing_stats(year, airport_code, sort_by):
     carrier.update({"code": [request.args.get("carrier_code", default=None, type=str)]})
     carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
 
-    topn = 10
     d = query_topn_outgoing_by_airport(year=year,
                                        airport_code=airport_code,
                                        sort_by=sort_by,
@@ -293,7 +293,7 @@ def get_airport_topn_outgoing_stats(year, airport_code, sort_by):
                                        origin=origin,
                                        dest=dest,
                                        carrier=carrier,
-                                       topn=topn)
+                                       topn=TOPN)
 
     return jsonify(d)
 
@@ -323,13 +323,12 @@ def get_topn_carrier_outgoing_stats(year, sort_by):
     carrier.update({"code": [request.args.get("carrier_code", default=None, type=str)]})
     carrier.update({"name": [request.args.get("carrier_name", default=None, type=str)]})
 
-    topn = 10
     d = query_topn_outgoing_by_carrier(year=year,
                                        sort_by=sort_by,
                                        month=month,
                                        origin=origin,
                                        dest=dest,
                                        carrier=carrier,
-                                       topn=topn)
+                                       topn=TOPN)
     return jsonify(d)
 

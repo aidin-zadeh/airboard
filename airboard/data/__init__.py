@@ -513,7 +513,7 @@ def query_topn_outgoing_by_state(year,
     d[origin_uid]["state_code"] = x[1]
     d[origin_uid]["latitude"] = x[2]
     d[origin_uid]["longitude"] = x[3]
-    d[origin_uid]["topn"] = topn
+    d[origin_uid]["TOPN"] = topn
     d[origin_uid]["uid"] = origin_uid
     d[origin_uid]["dest"] = []
     # pprint(response.all())
@@ -621,7 +621,7 @@ def query_topn_outgoing_by_city(year,
     d[origin_uid]["city"] = x[2]
     d[origin_uid]["latitude"] = x[3]
     d[origin_uid]["longitude"] = x[4]
-    d[origin_uid]["topn"] = topn
+    d[origin_uid]["TOPN"] = topn
     d[origin_uid]["uid"] = origin_uid
     d[origin_uid]["dest"] = []
     # pprint(response.all())
@@ -730,7 +730,7 @@ def query_topn_outgoing_by_airport(year,
     d[origin_uid]["airport_code"] = x[3]
     d[origin_uid]["latitude"] = x[4]
     d[origin_uid]["longitude"] = x[5]
-    d[origin_uid]["topn"] = topn
+    d[origin_uid]["TOPN"] = topn
     d[origin_uid]["uid"] = origin_uid
     d[origin_uid]["dest"] = []
     # pprint(response.all())
@@ -831,7 +831,7 @@ def query_topn_outgoing_by_carrier(year,
     d[origin_uid]["airport_code"] = x[3]
     d[origin_uid]["latitude"] = x[4]
     d[origin_uid]["longitude"] = x[5]
-    d[origin_uid]["topn"] = topn
+    d[origin_uid]["TOPN"] = topn
     d[origin_uid]["uid"] = origin_uid
     d[origin_uid]["dest"] = []
     # pprint(response.all())

@@ -24,39 +24,6 @@ function render_map(error, response) {
     console.log(response)
 }
 
-function parse_request_url(year, month=null, origin=null, dest=null, carrier=null) {
-
-    // set base url
-    var request_url = `/data/market_domestic.json/${year}`;
-
-    // parse params
-    let params = [];
-
-    // parse month
-    if (month != null) params.push(`month=${month}`);
-
-    // parse origin airport parameters
-    if ("country" in origin && origin.country != null) params.push(`origin_country=${origin.country}`);
-    if ("state" in origin && origin.state != null) params.push(`origin_state=${origin.state}`);
-    if ("city" in origin && origin.city != null) params.push(`origin_city=${origin.city}`);
-
-    // parse origin destination parameters
-    if ("country" in dest && dest.country != null) params.push(`dest_country=${dest.country}`);
-    if ("state" in dest && dest.state != null) params.push(`dest_state=${dest.state}`);
-    if ("city" in dest && dest.city != null) params.push(`dest_city=${dest.city}`);
-
-    // parse carrier
-    if ("name" in carrier && carrier.name != null) params.push(`carrier_name=${carrier.name}`);
-
-    if (params.length === 0) {
-        return request_url
-    } else if (params.length === 1){
-        return `${request_url}?` + params[0];
-    } else if (params.length > 1) {
-        return `${request_url}?` + params.join("&");
-    }
-}
-
 create_map();
 
 let year = 2017;
@@ -64,8 +31,9 @@ let month = 11;
 let origin = {city: "Austin", state:"TX", country: null};
 let dest = {city: null, state: null, Country: null};
 let carrier = {name: null};
+let base_url = `/data/market_domestic.json/${year}` ;
 
-let request_url = parse_request_url(year, month, origin, dest, carrier);
+let request_url = parse_request_url(base_url, month, origin, dest, carrier);
 
 console.log("request url= ", request_url);
 
