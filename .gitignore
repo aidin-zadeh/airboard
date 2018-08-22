@@ -42,3 +42,5 @@ __pycache__/
 *.py[cod]
 
 *.sqlite
+
+*.DS_store

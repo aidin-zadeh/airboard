@@ -8,7 +8,7 @@ var fmap = L.map("at-flowmap")
 
 function create_map() {
     L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png?access_token={accessToken}', {
-       	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
         // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 5,
         id: 'mapbox.streets',
@@ -74,10 +74,10 @@ d3.json(request_url, function (error, response) {
 
 
     var Geodesic = L.geodesic([], {
-	    weight: 2,
-	    opacity: 0.5,
-	    color: 'blue',
-	    steps: 30
+        weight: 2,
+        opacity: 0.5,
+        color: 'blue',
+        steps: 30
     }).addTo(fmap);
 
 
@@ -103,39 +103,44 @@ d3.json(request_url, function (error, response) {
 
 
 d3.json("/data/state/market_domestic_stats.json/2015", function(data) {
-  console.log(data);
+    console.log(data);
 
-  let origin = "UnitedStates,TX";
-  let dest = "UnitedStates,AK";
+    let origin = "UnitedStates,TX";
+    let dest = "UnitedStates,AK";
 
-  let flight_count = data[origin]["dest"][dest]["flight_count"];
-  let total_passengers = data[origin]["dest"][dest]["total_passengers"];
-  let total_mail = data[origin]["dest"][dest]["total_mail"];
-  let total_freight = data[origin]["dest"][dest]["total_freight"];
-  let total_distance = data[origin]["dest"][dest]["total_distance"];
+    let flight_count = data[origin]["dest"][dest]["flight_count"];
+    let total_passengers = data[origin]["dest"][dest]["total_passengers"];
+    let total_mail = data[origin]["dest"][dest]["total_mail"];
+    let total_freight = data[origin]["dest"][dest]["total_freight"];
+    let total_distance = data[origin]["dest"][dest]["total_distance"];
 
-  console.log(flight_count.slice(0, flight_count.length))
+    flight_count = ["FlightCount"].concat(flight_count)
+    total_passengers = ["TotalPassengers"].concat(total_passengers)
+    total_mail = ["TotalMail"].concat(total_mail)
+    total_freight = ["TotalFreight"].concat(total_freight)
+    total_distance = ["TotalDistance"].concat(total_distance)
 
-  console.log(flight_count);
-  var chart = c3.generate({
+
+
+    var chart = c3.generate({
         bindto: '#area-chart',
         data: {
             columns: [
-                flight_count.slice(0, flight_count.length).unshift("Flight Count"),
-                total_passengers.slice(0, total_passengers.length).unshift("Total Passengers"),
-                total_freight.slice(0, total_freight.length).unshift("Total Freight"),
-                total_mail.slice(0, total_mail.length).unshift("Total Mail"),
-                total_distance.slice(0, total_distance.length).unshift("Total Distance")
+                flight_count,
+                total_passengers,
+                total_freight,
+                total_mail,
+                total_distance
             ],
             types: {
                 data1: 'area-spline',
                 data2: 'area-spline',
                 data3: 'area-spline',
                 data4: 'area-spline',
-
+                data5: 'area-spline',
                 // 'line', 'spline', 'step', 'area', 'area-step' are also available to stack
             },
-            groups: [['data1', 'data2', "data3", "data4"]]
+            groups: [['data1', 'data2', "data3", "data4", "aea5"]]
         }
     });
 });
