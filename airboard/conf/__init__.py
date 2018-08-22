@@ -7,7 +7,7 @@ CURR_DIR = os.path.dirname(inspect.getabsfile(inspect.currentframe()))
 ROOT_DIR = os.path.dirname(CURR_DIR)
 
 
-DB_VERSION = 0
+DB_VERSION = "01"
 
 fname = os.path.join(ROOT_DIR,
                      "data",
