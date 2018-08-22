@@ -105,19 +105,37 @@ d3.json(request_url, function (error, response) {
 d3.json("/data/state/market_domestic_stats.json/2015", function(data) {
   console.log(data);
 
+  let origin = "UnitedStates,TX";
+  let dest = "UnitedStates,AK";
+
+  let flight_count = data[origin]["dest"][dest]["flight_count"];
+  let total_passengers = data[origin]["dest"][dest]["total_passengers"];
+  let total_mail = data[origin]["dest"][dest]["total_mail"];
+  let total_freight = data[origin]["dest"][dest]["total_freight"];
+  let total_distance = data[origin]["dest"][dest]["total_distance"];
+
+  console.log(flight_count.slice(0, flight_count.length))
+
+  console.log(flight_count);
   var chart = c3.generate({
         bindto: '#area-chart',
         data: {
             columns: [
-                ['data1', 300, 350, 300, 0, 0, 120],
-                ['data2', 130, 100, 140, 200, 150, 50]
+                flight_count.slice(0, flight_count.length).unshift("Flight Count"),
+                total_passengers.slice(0, total_passengers.length).unshift("Total Passengers"),
+                total_freight.slice(0, total_freight.length).unshift("Total Freight"),
+                total_mail.slice(0, total_mail.length).unshift("Total Mail"),
+                total_distance.slice(0, total_distance.length).unshift("Total Distance")
             ],
             types: {
                 data1: 'area-spline',
-                data2: 'area-spline'
+                data2: 'area-spline',
+                data3: 'area-spline',
+                data4: 'area-spline',
+
                 // 'line', 'spline', 'step', 'area', 'area-step' are also available to stack
             },
-            groups: [['data1', 'data2']]
+            groups: [['data1', 'data2', "data3", "data4"]]
         }
     });
 });
