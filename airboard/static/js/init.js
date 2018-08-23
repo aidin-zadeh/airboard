@@ -1,4 +1,52 @@
 
+Array.range = (start, end) => Array.from({length: (end - start)}, (v, k) => k + start);
+
+Number.prototype.pad = function(size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
+};
+
+/**
+ *
+ * @param form_id
+ * @param options
+ */
+function create_select_options(form_id, options) {
+    let $selectForm = document.getElementById(form_id);
+    for (let i=0; i<options.length; i++){
+        let $elem = document.createElement("option");
+        $elem.innerHTML = options[i];
+        $selectForm.appendChild($elem);
+    }
+}
+
+function clear_container(element_id) {
+    let div = document.getElementById(element_id);
+    while(div.firstChild){
+        div.removeChild(div.firstChild);
+    }
+}
+
+
+/**
+ *
+ * @param form_id
+ * @param options
+ */
+function create_select_options(form_id, options) {
+    let $selectForm = document.getElementById(form_id);
+    for (let i=0; i<options.length; i++){
+        let $elem = document.createElement("option");
+        $elem.innerHTML = options[i];
+        $selectForm.appendChild($elem);
+    }
+}
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+
 function parse_request_url(base_url, month=null, origin=null, dest=null, carrier=null) {
 
     // parse params

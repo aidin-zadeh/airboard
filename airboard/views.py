@@ -260,7 +260,6 @@ def get_city_topn_outgoing_stats(year, city, sort_by):
     return jsonify(d)
 
 
-
 @app.route("/data/airport/out/topn_stats.json/<year>/<airport_code>/<sort_by>")
 def get_airport_topn_outgoing_stats(year, airport_code, sort_by):
 

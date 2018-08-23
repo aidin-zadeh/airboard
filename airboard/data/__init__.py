@@ -507,7 +507,7 @@ def query_topn_outgoing_by_state(year,
     d = dict()
 
     x = response[0]
-    origin_uid = f"{x[0]},{x[1]}".replace(" ", "")
+    origin_uid = "origin"
     d[origin_uid] = dict()
     d[origin_uid]["country"] = x[0]
     d[origin_uid]["state_code"] = x[1]
@@ -519,9 +519,6 @@ def query_topn_outgoing_by_state(year,
     # pprint(response.all())
     counter = 0
     for x in response:
-        print(counter)
-        print(x[10])
-        # pprint(x)
         if counter < topn:
             dest_uid = f"{x[4]},{x[5]}".replace(" ", "")
             elem = dict()
@@ -537,10 +534,11 @@ def query_topn_outgoing_by_state(year,
             elem["total_mail"] = x[12]
             d[origin_uid]["dest"].append(elem)
         elif counter == topn:
-            print("other")
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid
+            elem["country"] = ""
+            elem["state"] = "Other"
             elem["flight_count"] = x[8]
             elem["total_distance"] = x[9]
             elem["total_passengers"] = x[10]
@@ -572,7 +570,7 @@ def query_topn_outgoing_by_city(year,
     YTable = create_table(year)
 
     sel = [
-        YTable.MONTH,
+        # YTable.MONTH,
         YTable.ORIGIN_COUNTRY,
         YTable.ORIGIN_STATE_CODE,
         YTable.ORIGIN_CITY,
@@ -592,8 +590,6 @@ def query_topn_outgoing_by_city(year,
 
     # set columns to group by
     columns_to_groupby = [
-        YTable.DEST_COUNTRY,
-        YTable.DEST_STATE_CODE,
         YTable.DEST_CITY,
     ]
 
@@ -614,7 +610,7 @@ def query_topn_outgoing_by_city(year,
     d = dict()
 
     x = response[0]
-    origin_uid = f"{x[0]},{x[1]}".replace(" ", "")
+    origin_uid = "origin"
     d[origin_uid] = dict()
     d[origin_uid]["country"] = x[0]
     d[origin_uid]["state_code"] = x[1]
@@ -650,6 +646,8 @@ def query_topn_outgoing_by_city(year,
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid
+            elem["state"] = ""
+            elem["city"] = "Other"
             elem["flight_count"] = x[10]
             elem["total_distance"] = x[11]
             elem["total_passengers"] = x[12]
@@ -687,8 +685,6 @@ def query_topn_outgoing_by_airport(year,
         YTable.ORIGIN_AIRPORT_CODE,
         YTable.ORIGIN_LATITUDE,
         YTable.ORIGIN_LONGITUDE,
-        label("ORIGIN_AVG_LATITUDE", func.avg(YTable.ORIGIN_LATITUDE)),
-        label("ORIGIN_AVG_LONGITUDE", func.avg(YTable.ORIGIN_LONGITUDE)),
         YTable.DEST_COUNTRY,
         YTable.DEST_STATE_CODE,
         YTable.DEST_CITY,
@@ -722,7 +718,7 @@ def query_topn_outgoing_by_airport(year,
     d = dict()
 
     x = response[0]
-    origin_uid = f"{x[3]}".replace(" ", "")
+    origin_uid = "origin"
     d[origin_uid] = dict()
     d[origin_uid]["country"] = x[0]
     d[origin_uid]["state_code"] = x[1]
@@ -756,10 +752,11 @@ def query_topn_outgoing_by_airport(year,
             elem["total_mail"] = x[16]
             d[origin_uid]["dest"].append(elem)
         elif counter == topn:
-            print("other")
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid
+            elem["airport_code"] = "Other"
+            elem["airport_code"] = "Other"
             elem["flight_count"] = x[12]
             elem["total_distance"] = x[13]
             elem["total_passengers"] = x[14]
@@ -857,6 +854,8 @@ def query_topn_outgoing_by_carrier(year,
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid
+            elem["carrier_code"] = "Other"
+            elem["carrier_name"] = "Other"
             elem["flight_count"] = x[8]
             elem["total_distance"] = x[9]
             elem["total_passengers"] = x[10]
