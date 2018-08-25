@@ -20,7 +20,11 @@ var $destStateInput = document.getElementById("dest-state-if");
 var $destCityInput = document.getElementById("dest-city-if");
 var $destAiroportInput = document.getElementById("dest-airport-if");
 var $carrierInput = document.getElementById("carrier-if");
-var $indicatorInput = document.getElementById("indicator-if")
+var $indicatorInput = document.getElementById("indicator-if");
+var $totalPassengersCard = document.getElementById("total-passenger-card");
+var $totalMailCard = document.getElementById("total-mail-card");
+var $totalFreightCard = document.getElementById("total-freight-card");
+var $totalDistanceCard = document.getElementById("total-distance-card");
 
 Array.range = (start, end) => Array.from({length: (end - start)}, (v, k) => k + start);
 
@@ -198,7 +202,7 @@ d3.json("data/airport", function (airport_data) {
 
 // create airport drop-down select list
 d3.json("data/carrier", function (carrier_data) {
-    
+
     // var items = Object.keys(carrier_data).map(function(key) {
     //     return [key, carrier_data[key]];
     // });

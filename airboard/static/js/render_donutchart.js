@@ -9,8 +9,9 @@ function update_carrier_chart(year, month, indicator, origin, dest) {
     let base_url = `/data/carrier/out/topn_stats.json/${year}/${indicator}`;
     let request_url = parse_request_url(base_url, month=month, origin=origin, dest=dest);
 
+    console.log(request_url)
     d3.json(request_url, function(response) {
-
+        console.log(response)
         cols = response.origin.dest.map(x => [x.carrier_name, x[`total_${indicator}`]] )
         // console.log(cols);
         let donut_chart = c3.generate({
@@ -111,7 +112,7 @@ function update_city_destination_chart(year, month, origin_city, indicator, dest
 
 function update_airport_destination_chart(year, month, origin_airport_code, indicator, dest, carrier) {
 
-    let base_url = `/data/airport/out/topn_stats.json/${year}/${airport_code}/${indicator}`
+    let base_url = `/data/airport/out/topn_stats.json/${year}/${origin_airport_code}/${indicator}`
     let request_url = parse_request_url(base_url, month=month, origin=origin, carrier=carrier);
 
     d3.json(request_url, function(response) {

@@ -38,7 +38,7 @@ session = scoped_session(sessionmaker(bind=engine))# year = 2010
 #     YTable.DEST_AIRPORT_ID,
 #     # AirportTable.AIRPORT_ID,
 #     AirportTable.AIRPORT_STATE_CODE,
-#     label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+#     label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
 #     label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
 #     label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
 #     label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -221,7 +221,7 @@ def query_stats_by_state(year,
         label("DEST_AVG_LONGITUDE", func.avg(YTable.DEST_LONGITUDE)),
         YTable.MONTH,
         label("Flight_COUNT", func.count(YTable.DEST_STATE_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -310,7 +310,7 @@ def query_stats_by_city(year,
         label("DEST_AVG_LONGITUDE", func.avg(YTable.DEST_LONGITUDE)),
         YTable.MONTH,
         label("Flight_COUNT", func.count(YTable.DEST_AIRPORT_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -396,7 +396,7 @@ def query_stats_by_airport(year,
         YTable.DEST_LONGITUDE,
         YTable.MONTH,
         label("Flight_COUNT", func.count(YTable.DEST_AIRPORT_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -478,7 +478,7 @@ def query_topn_outgoing_by_state(year,
         label("DEST_AVG_LATITUDE", func.avg(YTable.DEST_LATITUDE)),
         label("DEST_AVG_LONGITUDE", func.avg(YTable.DEST_LONGITUDE)),
         label("Flight_COUNT", func.count(YTable.DEST_STATE_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -582,7 +582,7 @@ def query_topn_outgoing_by_city(year,
         label("DEST_AVG_LATITUDE", func.avg(YTable.DEST_LATITUDE)),
         label("DEST_AVG_LONGITUDE", func.avg(YTable.DEST_LONGITUDE)),
         label("Flight_COUNT", func.count(YTable.DEST_STATE_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -691,7 +691,7 @@ def query_topn_outgoing_by_airport(year,
         YTable.DEST_LATITUDE,
         YTable.DEST_LONGITUDE,
         label("Flight_COUNT", func.count(YTable.DEST_STATE_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -794,7 +794,7 @@ def query_topn_outgoing_by_carrier(year,
         YTable.UNIQUE_CARRIER,
         YTable.UNIQUE_CARRIER_NAME,
         label("Flight_COUNT", func.count(YTable.DEST_STATE_CODE)),
-        label("TOTAL_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
         label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
         label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
         label("TOTAL_MAIL", func.sum(YTable.MAIL)),
@@ -870,6 +870,121 @@ def query_topn_outgoing_by_carrier(year,
     return d
 
 
+def query_summary(year,
+                  month=None,
+                  origin=None,
+                  dest=None,
+                  carrier=None,):
+
+    # reflect table
+    YTable = create_table(year)
+
+    sel = [
+        label("TOTAL_DISTANCE", func.sum(YTable.DISTANCE)),
+        label("TOTAL_PASSENGERS", func.sum(YTable.PASSENGERS)),
+        label("TOTAL_FREIGHT", func.sum(YTable.FREIGHT)),
+        label("TOTAL_MAIL", func.sum(YTable.MAIL)),
+        label("AVERAGE_DISTANCE", func.avg(YTable.DISTANCE)),
+        label("AVERAGE_PASSENGERS", func.avg(YTable.PASSENGERS)),
+        label("AVERAGE_FREIGHT", func.avg(YTable.FREIGHT)),
+        label("AVERAGE_MAIL", func.avg(YTable.MAIL)),
+    ]
+
+    # get columns to filter by
+    columns_to_filter = parse_columns_to_filter(month, origin, dest, carrier)
+
+
+    # query for response
+    response = session.query(*[getattr(YTable, list(elem.keys())[0])
+                               for elem in columns_to_filter], *sel) \
+        .filter(*[getattr(YTable, list(elem.keys())[0]).in_(list(elem.values())[0])
+                  for elem in columns_to_filter]) \
+        .all()[0]
+
+    d = dict()
+    d["total_distance"] = response[len(columns_to_filter)]
+    d["total_passengers"] = response[len(columns_to_filter)+1]
+    d["total_freight"] = response[len(columns_to_filter)+2]
+    d["total_mail"] = response[len(columns_to_filter)+3]
+    d["average_distance"] = response[len(columns_to_filter)+4]
+    d["average_passengers"] = response[len(columns_to_filter)+5]
+    d["average_freight"] = response[len(columns_to_filter)+6]
+    d["average_mail"] = response[len(columns_to_filter)+7]
+    return d
+
+
+def query_filtered_options(year,
+                           month=None,
+                           origin=None,
+                           dest=None,
+                           carrier=None,):
+
+    # reflect table
+    YTable = create_table(year)
+
+    sel = [
+        YTable.MONTH,
+        YTable.ORIGIN_COUNTRY,
+        YTable.ORIGIN_STATE_CODE,
+        YTable.ORIGIN_CITY,
+        YTable.ORIGIN_AIRPORT_CODE,
+        YTable.DEST_COUNTRY,
+        YTable.DEST_STATE_CODE,
+        YTable.DEST_CITY,
+        YTable.DEST_AIRPORT_CODE,
+        YTable.UNIQUE_CARRIER,
+        YTable.UNIQUE_CARRIER_NAME,
+    ]
+
+    # get columns to filter by
+    columns_to_filter = parse_columns_to_filter(month, origin, dest, carrier)
+
+    # query for response
+    response = session.query(*sel) \
+        .filter(*[getattr(YTable, list(elem.keys())[0]).in_(list(elem.values())[0])
+                  for elem in columns_to_filter])
+
+    d = dict()
+    d["month"] = set()
+    d["origin_country"] = set()
+    d["origin_state_code"] = set()
+    d["origin_city"] = set()
+    d["origin_airport_code"] = set()
+    d["dest_country"] = set()
+    d["dest_state_code"] = set()
+    d["dest_city"] = set()
+    d["dest_airport_code"] = set()
+    d["carrier_code"] = set()
+    d["carrier_name"] = set()
+
+    for x in response:
+        d["month"].add(x[0])
+        d["origin_country"].add(x[1])
+        d["origin_state_code"].add(x[2])
+        d["origin_city"].add(x[3])
+        d["origin_airport_code"].add(x[4])
+        d["dest_country"].add(x[5])
+        d["dest_state_code"].add(x[6])
+        d["dest_city"].add(x[7])
+        d["dest_airport_code"].add(x[8])
+        d["carrier_code"].add(x[9])
+        d["carrier_name"].add(x[10])
+
+    d["month"] = list(d["month"])
+    d["origin_country"] = list(d["origin_country"])
+    d["origin_city"] = list(d["origin_city"])
+    d["origin_state_code"] = list(d["origin_state_code"])
+    d["origin_airport_code"] = list(d["origin_airport_code"])
+    d["dest_country"] = list(d["dest_country"])
+    d["dest_city"] = list(d["dest_city"])
+    d["dest_state_code"] = list(d["dest_state_code"])
+    d["dest_airport_code"] = list(d["dest_airport_code"])
+    d["carrier_code"] = list(d["carrier_code"])
+    d["carrier_name"] = list(d["carrier_name"])
+
+    return d
+
+
 def main():
     year = 2010
     origin = {"country": [None],
@@ -896,10 +1011,24 @@ def main():
     return state_stats, city_stats
 
 
-if __name__ == "__main__":
-    d_state, d_city = main()
-    # print(len(rval))
-    pprint(d_state)
+# if __name__ == "__main__":
+#     d_state, d_city = main()
+#     # print(len(rval))
+#     pprint(d_state)
 
 
 
+# year = 2010
+# month = [2]
+# origin = {"country": [None],
+#           "state_code": ["TX"],
+#           "city": ["Austin"],
+#           "airport_code": [None]}
+# dest = {"country": [None],
+#         "state_code": [None],
+#         "city": [None],
+#         "airport_code": [None]}
+# carrier = {"name": [None], "code": [None]}
+#
+#
+# response = query_filtered_options(year, month, origin, dest, carrier)

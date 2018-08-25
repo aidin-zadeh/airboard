@@ -19,7 +19,7 @@
     border-radius: 0;
     /*font: normal 48px/normal Arial, Helvetica, sans-serif;*/
     color: rgba(0,110,255,1);
-    text-decoration: normal;
+    /*text-decoration: normal;*/
     text-align: center;
     -o-text-overflow: clip;
     text-overflow: clip;
@@ -100,7 +100,7 @@
 }
 
 #at-flowmap {
-    height: 250px;
+    height: 350px;
 }
 
 /* map elements */
@@ -112,7 +112,7 @@
 }
 #map{
     /*position: absolute;*/
-    height: 70%;
+    height:95%;
     width: 100%;
 }
 #event{
@@ -124,9 +124,9 @@
     z-index: 10000;
 }
 .btn{
-    /*border-color:gray;*/
-    /*border-width: 2px;*/
-    /*background-color:white;*/
+    border-color:gray;
+    border-width: 2px;
+    background-color:white;
 }
 
 #area-chart{

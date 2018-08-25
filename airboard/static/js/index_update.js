@@ -9,19 +9,20 @@ function update_index(year, month, origin, dest, carrier, indicator) {
     // update/_flowmap*filter<obj*
     //-------------
 
+    // update flowmap
+
+    render_flomap(year);
     // update top N destination donut chart
     if (origin.airport_code != null) {
         update_airport_destination_chart(year, origin, origin.airport_code, indicator, dest);
-        update_airport_summary(year, month, origin.airport_code, "passengers");
     } else if (origin.city != null) {
         update_city_destination_chart(year, month,origin.city, indicator, dest, carrier);
-        update_city_summary(year, month, origin.city, "passengers");
     } else if (origin.state != null) {
         update_state_destination_chart(year, month, origin.state, indicator, dest);
-        update_state_summary(year, month, origin.state, "passengers");
     }
 
-    // update table
+    // summary cards
+    update_summary(year, month, origin, dest, carrier);
 
     // update card footer
     let elems = document.getElementsByClassName("card-footer");
@@ -60,6 +61,9 @@ function window_load_handler() {
         name: null
     };
 
+    // update filter option list
+    // year_if_change_filter_handler(year, month, origin, dest, carrier);
+
     let indicator = "passengers";
     update_index(year, month, origin, dest, carrier, indicator)
 
@@ -85,14 +89,18 @@ function year_if_change_handler(element) {
     };
 
     let indicator = $indicatorInput.value;
-
+   // update filter option list
     update_index(year, month, origin, dest, carrier, indicator)
+    // year_if_change_filter_handler(year, month, origin, dest, carrier);
+
+    // update flowmap
+    destroy_flowmap()
 }
 
 function month_if_change_handler(element) {
 
     let year = ($yearInput.value === "-- All --") ? null : $yearInput.value;
-    let month = parseInt(element.target.value);
+    let month = `${element.target.value}`;
     let origin = {
         country: COUNTRY,
         state: ($originStateInput.value === "-- All --") ? null : $originStateInput.value,
@@ -111,6 +119,7 @@ function month_if_change_handler(element) {
     let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
+    // month_if_change_filter_handler(year, month, origin, dest, carrier)
 }
 
 function origin_state_if_change_handler(element) {
