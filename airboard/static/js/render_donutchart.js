@@ -1,24 +1,19 @@
 
+var carrier_chart_id = "carrier-chart";
 
-function update_carrier_chart() {
-    let year = 2016;
-    let month = 10;
-    let origin = {city: "Austin", state:"TX", country: "United States", airport_code: null};
-    let carrier = {name: null, code: null};
+// functions to render donut charts
 
-    let indicator = "passengers";
+function update_carrier_chart(year, month, indicator, origin, dest) {
 
     let base_url = `/data/carrier/out/topn_stats.json/${year}/${indicator}`;
-    let request_url = parse_request_url(base_url, month=month, origin=origin);
+    let request_url = parse_request_url(base_url, month=month, origin=origin, dest=dest);
 
     d3.json(request_url, function(response) {
 
-        // console.log(request_url);
-        // console.log(response);
         cols = response.origin.dest.map(x => [x.carrier_name, x[`total_${indicator}`]] )
         // console.log(cols);
         let donut_chart = c3.generate({
-            bindto: "#carrier-chart",
+            bindto: `#${carrier_chart_id}`,
             data: {
                 columns: cols,
                 type : 'donut',
@@ -38,20 +33,12 @@ function update_carrier_chart() {
     });
 }
 
-function update_state_destination_chart() {
+function update_state_destination_chart(year, month, origin_state_code, indicator, dest, carrier) {
 
-    let year = 2016;
-    let month = 10;
-    let state_code = "TX";
-    // set params to filter by
-    let origin = {city: null, state: null, country: "United States", airport_code: null};
-    let carrier = {name: null, code: null};
-
-    let indicator = "passengers";
-    let base_url = `/data/state/out/topn_stats.json/${year}/${state_code}/${indicator}`;
-
-    let request_url = parse_request_url(base_url, month=month, origin=origin);
-
+    // let origin = {city: null, state: null, country: "United States", airport_code: null};
+    let base_url = `/data/state/out/topn_stats.json/${year}/${origin_state_code}/${indicator}`;
+    let request_url = parse_request_url(base_url, month=month, dest=dest, carrier=carrier);
+    console.log(request_url)
     d3.json(request_url, function(response) {
 
         // console.log(request_url)
@@ -79,19 +66,14 @@ function update_state_destination_chart() {
     });
 }
 
-function update_city_destination_chart() {
+function update_city_destination_chart(year, month, origin_city, indicator, dest, carrier) {
 
-    let year = 2016;
-    let month = 10;
-    let city = "Austin";
-    // set params to filter by
-    let origin = {city: null, state: null, country: "United States", airport_code: null};
-    let carrier = {name: null, code: null};
+    console.log(origin_city)
+    // let origin = {city: null, state: null, country: "United States", airport_code: null};
 
-    let indicator = "passengers";
-    let base_url = `/data/city/out/topn_stats.json/${year}/${city}/${indicator}`;
-
-    let request_url = parse_request_url(base_url, month=month, origin=origin);
+    let base_url = `/data/city/out/topn_stats.json/${year}/${origin_city}/${indicator}`;
+    let request_url = parse_request_url(base_url, month=month, dest=dest, carrier=carrier);
+    console.log(request_url)
 
     d3.json(request_url, function(response) {
 
@@ -120,24 +102,13 @@ function update_city_destination_chart() {
     });
 }
 
-function update_airport_destination_chart() {
+function update_airport_destination_chart(year, month, origin_airport_code, indicator, dest, carrier) {
 
-    let year = 2016;
-    let month = 5;
-    let airport_code = "AUS";
-    // set params to filter by
-    let origin = {city: null, state: null, country: "United States", airport_code: null};
-    let carrier = {name: null, code: null};
-
-    let indicator = "passengers";
     let base_url = `/data/airport/out/topn_stats.json/${year}/${airport_code}/${indicator}`
-
-    let request_url = parse_request_url(base_url, month=month, origin=origin);
+    let request_url = parse_request_url(base_url, month=month, origin=origin, carrier=carrier);
 
     d3.json(request_url, function(response) {
 
-        // console.log(request_url);
-        // console.log(response);
         let labels = response.origin.dest.map(x => [`${x.airport_code}`]);
         let cols = response.origin.dest.map(x => [`${x.airport_code}`, x[`total_${indicator}`]] )
         // console.log(cols);
@@ -161,7 +132,3 @@ function update_airport_destination_chart() {
 
     });
 }
-update_carrier_chart();
-// update_state_destination_chart();
-// update_city_destination_chart();
-update_airport_destination_chart();

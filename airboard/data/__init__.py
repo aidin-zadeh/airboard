@@ -642,7 +642,6 @@ def query_topn_outgoing_by_city(year,
             elem["total_mail"] = x[14]
             d[origin_uid]["dest"].append(elem)
         elif counter == topn:
-            print("other")
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid
@@ -850,7 +849,6 @@ def query_topn_outgoing_by_carrier(year,
             elem["total_mail"] = x[12]
             d[origin_uid]["dest"].append(elem)
         elif counter == topn:
-            print("other")
             dest_uid = "other"
             elem = dict()
             elem["uid"] = dest_uid

@@ -30,7 +30,6 @@
     <!-- C3 core css -->
     <link href="../static/vendor/c3/c3.css" rel="stylesheet">
 
-
     <!-- Leaflet JS source -->
     <script src="../static/vendor/leaflet/leaflet.js"></script>
     <script src="../static/js/src.js"></script>
@@ -154,6 +153,7 @@
                 <li class="breadcrumb-item active">Overview</li>
             </ol>
 
+            <!--Summary Cards-->
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-white bg-primary o-hidden h-100">
@@ -219,15 +219,13 @@
                         </a>
                     </div>
                 </div>
-
-
             </div>
 
 
 
-
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-10">
+
                     <!-- Flowmap -->
                     <div class="card mb-3">
                         <div class="card-header">
@@ -263,111 +261,145 @@
                             <!--style="height:100px; width:100%">-->
                             <!--</div>-->
                         </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                        <div class="card-footer small text-muted"></div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <!--input forms-->
+                <div class="col-md-2">
                     <!--drop down-->
-                    <div class="card mb-3">
-                        <!--<div class="card-header">-->
-                            <!--<i class="fas fa-chart-area"></i>-->
-                            <!--Area Chart Example</div>-->
+                    <div class="card mb-1">
+                        <div class="card-header">
+                            <i class="fas fa-calendar"></i>
+                            Time</div>
+
+                        <div class="card-body">
+                            <form>
+                                <!--time input form-->
+                                <div class="form-row align-items-center">
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="year-if">Year</label>
+                                        </div>
+                                        <select class="form-control" id="year-if" data-header="Choose Year...">
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="month-if">Month</label>
+                                        </div>
+                                        <select class="form-control" id="month-if" data-header="Choose Month...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--origin input forms-->
+                    <div class="card mb-1">
+                        <div class="card-header">
+                            <i class="fas fa-square"></i>
+                            Origin</div>
                         <div class="card-body">
                             <form>
                                 <div class="form-row align-items-center">
-                                    <div class="col-sm-5">
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="year-input-input">Year</label>
-                                            </div>
-                                            <select class="form-control" id="year-input-input" data-header="Choose Year...">
-                                                <option selected>-- all --</option>
-                                            </select>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="origin-state-if">State</label>
                                         </div>
+                                        <select class="form-control" id="origin-state-if" data-header="Choose State...">
+                                        <!--<option value="TX">Texas</option>-->
+                                        </select>
                                     </div>
-
-                                    <div class="col-sm-5">
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="month-input-form">Month</label>
-                                            </div>
-                                            <select class="form-control" id="month-input-form" data-header="Choose Month...">
-                                                <option selected>-- all --</option>
-                                            </select>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="origin-city-if">City</label>
                                         </div>
+                                        <select class="form-control" id="origin-city-if" data-header="Choose City...">
+                                            <!--<option value="Austin">Austin</option>-->
+                                        </select>
                                     </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-
-                                    <div class="col-sm-4">
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text"
-                                                       for="state-input-form">
-                                                    State</label>
-                                            </div>
-                                            <select class="form-control"
-                                                    id="state-input-form"
-                                                    data-header="Choose city...">
-                                                <option selected>-- all --</option>
-                                            </select>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="origin-airport-if">Airport</label>
                                         </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text"
-                                                       for="city-input-form"
-                                                >City</label>
-                                            </div>
-                                            <select class="form-control"
-                                                    id="city-input-form"
-                                                    data-header="Choose city..">
-                                                <option selected>-- all --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text"
-                                                       for="airport-input-form">
-                                                    Airport</label>
-                                            </div>
-                                            <select class="form-control"
-                                                    id="airport-input-form"
-                                                    data-header="Choose airport...">
-                                                <option selected>-- all --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-row align-items-left">
-                                    <div class="col-auto">
-                                        <button style="float: left;"
-                                                type="submit"
-                                                class="btn-lg btn-primary"
-                                                id="submit-button">
-                                            Submit
-                                        </button>
+                                        <select class="form-control" id="origin-airport-if" data-header="Choose Airport...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
                                     </div>
                                 </div>
                             </form>
                         </div>
-
-
-                        <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
                     </div>
+
+                    <!--destination input forms-->
+                    <div class="card mb-1">
+                        <div class="card-header">
+                            <i class="fas fa-square"></i>
+                             Destination</div>
+                        <div class="card-body">
+                                <!--<h5 class="card-title">Special title treatment</h5>-->
+
+                            <form>
+                                <div class="form-row align-items-center">
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="dest-state-if">State</label>
+                                        </div>
+                                        <select class="form-control" id="dest-state-if" data-header="Choose State...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="dest-city-if">City</label>
+                                        </div>
+                                        <select class="form-control" id="dest-city-if" data-header="Choose City...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="dest-airport-if">Airport</label>
+                                        </div>
+                                        <select class="form-control" id="dest-airport-if" data-header="Choose Airport...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--carrier input form-->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fas fa-plane"></i>
+                            Carrier</div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-row align-items-center">
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="carrier-if">Carrier Name</label>
+                                        </div>
+                                        <select class="form-control" id="carrier-if" data-header="Choose Carrier Name...">
+                                            <!--<option value="&#45;&#45; All &#45;&#45;">&#45;&#45; All &#45;&#45;</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
                     <!-- Table -->
                     <div class="card mb-3">
                         <div class="card-header" id="metadata-table-header">
-                            <i class="fas fa-chart-area"></i>
+                            <i class="fas fa-table"></i>
                         </div>
                         <table id="metadata-table"
                                class="table table-condensed table-hovered sortableTable tablesorter tablesorter-default"
@@ -383,11 +415,11 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <!--Top N Carrier Donut Chart-->
                     <div class="card mb-3">
                         <div class="card-header">
-                            <i class="fas fa-chart-area"></i>
+                            <i class="fas fa-pie-chart"></i>
                             Area Chart Example</div>
                         <div class="card-body" id="carrier-card-body">
                             <div class="col-md-12">
@@ -399,11 +431,11 @@
                     </div>
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <!--Top N destination Donut Chart-->
                     <div class="card mb-3">
                         <div class="card-header">
-                            <i class="fas fa-chart-area"></i>
+                            <i class="fas fa-pie-chart"></i>
                             Area Chart Example</div>
                         <div class="card-body" id="destination-card-body">
                             <div class="col-md-12">
@@ -523,6 +555,12 @@
 <!-- Core plugin JavaScript-->
 <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+
+<!--<script>-->
+    <!--var airports_data = "{{ airports_data | safe }}";-->
+    <!--var states_data = "{{ states_data | safe }}";-->
+<!--</script>-->
+
 <!-- d3 core JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
 <!--<script src="../static/vendor/d3/d3.min.js"></script>-->
@@ -538,10 +576,10 @@
 
 <!-- Custom scripts for all pages-->
 <script src="../static/js/sb-admin.min.js"></script>
-<script src="../static/js/init.js"></script>
 <script src="../static/js/render_flowmap.js"></script>
 <script src="../static/js/render_donutchart.js"></script>
-<!--<script src="../static/js/test.js"></script>-->
+<script src="../static/js/index_init.js"></script>
+<script src="../static/js/index_update.js"></script>
 
 
 

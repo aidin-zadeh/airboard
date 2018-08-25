@@ -1,11 +1,12 @@
- 
+
 import os, inspect
 from flask import (
     render_template,
     Response,
     request,
+    json,
     jsonify)
-
+import pandas as pd
 from airboard import app
 from airboard.data import (
     session,
@@ -37,7 +38,43 @@ def remove_session(ex=None):
 @app.route('/home')
 @app.route('/')
 def home():
-    return render_template('index.html')
+
+    # read airports data
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_AIRPORT_MASTER_CORD_CLEAN_V0.json")
+    airports_data = json.load(open(fname))
+
+    # read US states data
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_STATE_CORD_V0.json")
+    states_data = json.load(open(fname))
+
+    return render_template("index.html")
+
+
+
+@app.route("/data/state")
+def get_state_data():
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_STATE_CORD_V0.json")
+    states_data = json.load(open(fname))
+    return jsonify(states_data)
+
+@app.route("/data/city")
+def get_city_data():
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_CITY_CORD_V0.json")
+    states_data = json.load(open(fname))
+    return jsonify(states_data)
+
+@app.route("/data/airport")
+def get_airport_data():
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_AIRPORT_MASTER_CORD_CLEAN_V0.json")
+    states_data = json.load(open(fname))
+    return jsonify(states_data)
+
+
+@app.route("/data/carrier")
+def get_carrier_data():
+    fname = os.path.join(CURR_DIR, "data", "ext", "616228237_CARRIER_MASTER_CORD_CLEAN_V0.json")
+    states_data = json.load(open(fname))
+    return jsonify(states_data)
 
 
 @app.route("/data/market_domestic.json/<year>")
