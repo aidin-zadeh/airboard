@@ -256,10 +256,21 @@
                                        class="btn btn-primary"
                                        onclick="play()">
                             </div>
-                            <div id="area-chart"></div>
                             <!--<div id="flowmap"-->
                             <!--style="height:100px; width:100%">-->
                             <!--</div>-->
+                        </div>
+                        <div class="card-footer small text-muted"></div>
+                    </div>
+
+                    <!-- Area Chart -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fas fa-chart-area"></i>
+                            Area Chart</div>
+                        <div class="card-body"
+                             id="area-chart-card-body">
+                            <div id="area-chart"></div>
                         </div>
                         <div class="card-footer small text-muted"></div>
                     </div>
@@ -442,9 +453,9 @@
                 <div class="col-md-5">
                     <!--Top N Carrier Donut Chart-->
                     <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fas fa-pie-chart"></i>
-                            Area Chart Example</div>
+                        <div class="card-header" id="carrier-chart-header">
+                            <!--<i class="fas fa-pie-chart"></i>-->
+                            <!--Area Chart Example</div>-->
                         <div class="card-body" id="carrier-card-body">
                             <div class="col-md-12">
                                 <div id="carrier-chart"></div>
@@ -458,9 +469,9 @@
                 <div class="col-md-5">
                     <!--Top N destination Donut Chart-->
                     <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fas fa-pie-chart"></i>
-                            Area Chart Example</div>
+                        <div class="card-header" id="destination-chart-header">
+                            <!--<i class="fas fa-pie-chart"></i>-->
+                            <!--Area Chart Example</div>-->
                         <div class="card-body" id="destination-card-body">
                             <div class="col-md-12">
                                 <div id="destination-chart"></div>
@@ -599,10 +610,11 @@
 
 
 <!-- Custom scripts for all pages-->
+<script src="../static/js/index_init.js"></script>
 <script src="../static/js/sb-admin.min.js"></script>
 <script src="../static/js/render_flowmap.js"></script>
 <script src="../static/js/render_donutchart.js"></script>
-<script src="../static/js/index_init.js"></script>
+<script src="../static/js/summary_card.js"></script>
 <script src="../static/js/index_update.js"></script>
 
 

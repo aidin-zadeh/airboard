@@ -2,16 +2,23 @@
 
 function update_index(year, month, origin, dest, carrier, indicator) {
 
-
     update_carrier_chart(year, month, indicator, origin, dest);
+
+    // update {flowmap
+    // filtObj = {year, month, origin, dest, carrier, indicator}
+    // update/_flowmap*filter<obj*
+    //-------------
 
     // update top N destination donut chart
     if (origin.airport_code != null) {
         update_airport_destination_chart(year, origin, origin.airport_code, indicator, dest);
+        update_airport_summary(year, month, origin.airport_code, "passengers");
     } else if (origin.city != null) {
         update_city_destination_chart(year, month,origin.city, indicator, dest, carrier);
+        update_city_summary(year, month, origin.city, "passengers");
     } else if (origin.state != null) {
         update_state_destination_chart(year, month, origin.state, indicator, dest);
+        update_state_summary(year, month, origin.state, "passengers");
     }
 
     // update table
@@ -54,38 +61,8 @@ function window_load_handler() {
     };
 
     let indicator = "passengers";
+    update_index(year, month, origin, dest, carrier, indicator)
 
-    // summary cards
-
-    // update flowmap
-
-
-    // update carrier donut chart
-    update_carrier_chart(year, month, indicator, origin, dest);
-
-    // update top N destination donut chart
-    if (origin.airport_code != null) {
-        update_airport_destination_chart(year, origin, origin.airport_code, indicator, dest);
-    } else if (origin.city != null) {
-        update_city_destination_chart(year, month, origin.city, indicator, dest, carrier);
-    } else if (origin.state != null) {
-        update_state_destination_chart(year, month, origin.state, indicator, dest);
-    }
-
-    // update table
-
-    // update card footer
-    let elems = document.getElementsByClassName("card-footer");
-    let current_date = new Date();
-    for (let i=0; i<elems.length; i++) {
-        elems[i].innerText = "Updated at " +
-            (current_date.getMonth()+1)  + "/" +
-            current_date.getDate() + "/" +
-            current_date.getFullYear() + " @ " +
-            current_date.getHours() + ":" +
-            current_date.getMinutes() + ":"
-            + current_date.getSeconds();
-    }
 }
 
 function year_if_change_handler(element) {
@@ -109,37 +86,8 @@ function year_if_change_handler(element) {
 
     let indicator = $indicatorInput.value;
 
-    console.log(indicator);
-    // summary cards
-    // update flowmap
-    // update carrier donut chart
-    update_carrier_chart(year, month, indicator, origin, dest);
-
-    // update top N destination donut chart
-    if (origin.airport_code != null) {
-        update_airport_destination_chart(year, origin, origin.airport_code, indicator, dest);
-    } else if (origin.city != null) {
-        update_city_destination_chart(year, month,origin.city, indicator, dest, carrier);
-    } else if (origin.state != null) {
-        update_state_destination_chart(year, month, origin.state, indicator, dest);
-    }
-
-    // update table
-
-    // update card footer
-    let elems = document.getElementsByClassName("card-footer");
-    let current_date = new Date();
-    for (let i=0; i<elems.length; i++) {
-        elems[i].innerText = "Updated at " +
-            (current_date.getMonth()+1)  + " " +
-            current_date.getDate() + "/" +
-            current_date.getFullYear() + " @ " +
-            current_date.getHours() + ":" +
-            current_date.getMinutes() + ":"
-            + current_date.getSeconds();
-    }
+    update_index(year, month, origin, dest, carrier, indicator)
 }
-
 
 function month_if_change_handler(element) {
 
@@ -162,36 +110,8 @@ function month_if_change_handler(element) {
 
     let indicator = $indicatorInput.value;
 
-    // summary cards
-    // update flowmap
-    // update carrier donut chart
-    update_carrier_chart(year, month, indicator, origin, dest);
-
-    // update top N destination donut chart
-    if (origin.airport_code != null) {
-        update_airport_destination_chart(year, origin, origin.airport_code, indicator, dest);
-    } else if (origin.city != null) {
-        update_city_destination_chart(year, month,origin.city, indicator, dest, carrier);
-    } else if (origin.state != null) {
-        update_state_destination_chart(year, month, origin.state, indicator, dest);
-    }
-
-    // update table
-
-    // update card footer
-    let elems = document.getElementsByClassName("card-footer");
-    let current_date = new Date();
-    for (let i=0; i<elems.length; i++) {
-        elems[i].innerText = "Updated at " +
-            (current_date.getMonth()+1)  + " " +
-            current_date.getDate() + "/" +
-            current_date.getFullYear() + " @ " +
-            current_date.getHours() + ":" +
-            current_date.getMinutes() + ":"
-            + current_date.getSeconds();
-    }
+    update_index(year, month, origin, dest, carrier, indicator)
 }
-
 
 function origin_state_if_change_handler(element) {
 
@@ -217,7 +137,6 @@ function origin_state_if_change_handler(element) {
     update_index(year, month, origin, dest, carrier, indicator)
 }
 
-
 function origin_city_if_change_handler(element) {
 
     let year = ($yearInput.value === "-- All --") ? null : $yearInput.value;
@@ -241,7 +160,6 @@ function origin_city_if_change_handler(element) {
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
-
 
 function origin_airport_if_change_handler(element) {
 
@@ -267,7 +185,6 @@ function origin_airport_if_change_handler(element) {
     update_index(year, month, origin, dest, carrier, indicator)
 }
 
-
 function dest_state_if_change_handler(element) {
 
     let year = ($yearInput.value === "-- All --") ? null : $yearInput.value;
@@ -291,7 +208,6 @@ function dest_state_if_change_handler(element) {
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
-
 
 function dest_city_if_change_handler(element) {
 
@@ -317,7 +233,6 @@ function dest_city_if_change_handler(element) {
     update_index(year, month, origin, dest, carrier, indicator)
 }
 
-
 function dest_airport_if_change_handler(element) {
 
     let year = ($yearInput.value === "-- All --") ? null : $yearInput.value;
@@ -341,7 +256,6 @@ function dest_airport_if_change_handler(element) {
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
-
 
 function carrier_if_change_handler(element) {
 

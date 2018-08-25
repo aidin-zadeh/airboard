@@ -32,7 +32,6 @@ Number.prototype.pad = function(size) {
 
 
 function create_select_options(form_id, display_values, values, default_value=null) {
-    console.log(default_value)
     let $selectForm = document.getElementById(form_id);
     for (let i=0; i<values.length; i++) {
         let $elem = document.createElement("option");

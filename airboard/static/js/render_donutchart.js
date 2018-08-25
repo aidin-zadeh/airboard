@@ -1,5 +1,6 @@
 
 var carrier_chart_id = "carrier-chart";
+var dest
 
 // functions to render donut charts
 
@@ -38,7 +39,6 @@ function update_state_destination_chart(year, month, origin_state_code, indicato
     // let origin = {city: null, state: null, country: "United States", airport_code: null};
     let base_url = `/data/state/out/topn_stats.json/${year}/${origin_state_code}/${indicator}`;
     let request_url = parse_request_url(base_url, month=month, dest=dest, carrier=carrier);
-    console.log(request_url)
     d3.json(request_url, function(response) {
 
         // console.log(request_url)
@@ -68,12 +68,10 @@ function update_state_destination_chart(year, month, origin_state_code, indicato
 
 function update_city_destination_chart(year, month, origin_city, indicator, dest, carrier) {
 
-    console.log(origin_city)
     // let origin = {city: null, state: null, country: "United States", airport_code: null};
 
     let base_url = `/data/city/out/topn_stats.json/${year}/${origin_city}/${indicator}`;
     let request_url = parse_request_url(base_url, month=month, dest=dest, carrier=carrier);
-    console.log(request_url)
 
     d3.json(request_url, function(response) {
 
@@ -98,6 +96,8 @@ function update_city_destination_chart(year, month, origin_city, indicator, dest
                 position: "right"
             }
         });
+
+        document.getElementById(dest)
 
     });
 }
