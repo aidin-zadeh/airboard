@@ -35,7 +35,7 @@ L.tileLayer(map_url, {
 }).addTo(lrmap);
 
 
-d3.json("/data/city/market_domestic_stats.json/2015", function(json) {
+d3.json("/data/state/market_domestic_stats.json/2015", function(json) {
     console.log(json);
     let origin = "UnitedStates,TX";
     let flight_color = "#e9ff20";

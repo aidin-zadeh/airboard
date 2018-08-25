@@ -1,6 +1,6 @@
 
 var carrier_chart_id = "carrier-chart";
-var dest
+var dest_chart_id = "destination-chart";
 
 // functions to render donut charts
 
@@ -32,6 +32,9 @@ function update_carrier_chart(year, month, indicator, origin, dest) {
         });
 
     });
+
+    let card_header_title = '<i class="fas fa-chart-pie"></i> Top 5 Carriers';
+    document.getElementById(carrier_chart_id + "-header").innerHTML = card_header_title
 }
 
 function update_state_destination_chart(year, month, origin_state_code, indicator, dest, carrier) {
@@ -64,6 +67,9 @@ function update_state_destination_chart(year, month, origin_state_code, indicato
         });
 
     });
+
+    let card_header_title = '<i class="fas fa-pie-chart"></i>Top 5 ' + indicator.capitalize();
+    document.getElementById(dest_chart_id + "-header").innerHTML = card_header_title
 }
 
 function update_city_destination_chart(year, month, origin_city, indicator, dest, carrier) {
@@ -80,7 +86,7 @@ function update_city_destination_chart(year, month, origin_city, indicator, dest
         cols = response.origin.dest.map(x => [`${x.city}, ${x.state}`, x[`total_${indicator}`]] )
         // console.log(cols);
         let dest_chart = c3.generate({
-            bindto: "#destination-chart",
+            bindto: `#${dest_chart_id}`,
             data: {
                 columns: cols,
                 type : 'donut',
@@ -97,7 +103,8 @@ function update_city_destination_chart(year, month, origin_city, indicator, dest
             }
         });
 
-        document.getElementById(dest)
+        let card_header_title = '<i class="fas fa-chart-pie"></i> Top 5 ' + indicator.capitalize();
+        document.getElementById(dest_chart_id + "-header").innerHTML = card_header_title
 
     });
 }
@@ -129,6 +136,9 @@ function update_airport_destination_chart(year, month, origin_airport_code, indi
                 position: "right"
             }
         });
+
+        let card_header_title = '<i class="fas fa-chart-pie"></i> Top 5 ' + indicator.capitalize();
+        document.getElementById(dest_chart_id + "-header").innerHTML = card_header_title
 
     });
 }
