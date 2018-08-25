@@ -1,33 +1,35 @@
+
 function window_load_handler() {
+
 
     for (let i=0; i<$originStateInput.options.length; i++) {
         let option = $originStateInput.options[i];
-        console.log(option.value)
+        console.log(i)
 
         if (option.value === "TX") {
+            consol
             option.setAttribute("selected", true);
         }
 
     }
-    $originStateInput.value = "TX";
 
     let year = parseInt($yearInput.value);
 
-    let month = ($monthInput.value === "-- All --") ? null : $monthInput.value;
+    let month = null;
     let origin = {
         country: COUNTRY,
-        state: ($originStateInput.value === "-- All --") ? null : $originStateInput.value,
-        city: ($originCityInput.value === "-- All --") ? null : $originCityInput.value,
-        airport_code: ($originAiroportInput.value === "-- All --") ? null : $originAiroportInput.value,
+        state: "TX",
+        city: "Austin",
+        airport_code: null,
     };
     let dest = {
         country: COUNTRY,
-        state: ($destStateInput.value === "-- All --") ? null : $destStateInput.value,
-        city: ($destCityInput.value === "-- All --") ? null : $destCityInput.value,
-        airport_code: ($destAiroportInput.value === "-- All --") ? null : $destAiroportInput.value,
+        state: null,
+        city: null,
+        airport_code: null,
     };
     let carrier = {
-        code: ($carrierInput.value === "-- All --") ? null : $carrierInput.value,
+        code: null,
         name: null
     };
     console.log(year)
@@ -44,7 +46,7 @@ function window_load_handler() {
 
 
     // update carrier donut chart
-    // update_carrier_chart(year, month, indicator, origin, dest);
+    update_carrier_chart(year, month, indicator, origin, dest);
 
     // update top N destination donut chart
     if (origin.airport_code != null) {

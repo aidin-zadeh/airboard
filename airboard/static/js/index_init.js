@@ -31,12 +31,15 @@ Number.prototype.pad = function(size) {
 };
 
 
-function create_select_options(form_id, display_values, values) {
+function create_select_options(form_id, display_values, values, default_value=null) {
     let $selectForm = document.getElementById(form_id);
     for (let i=0; i<values.length; i++) {
         let $elem = document.createElement("option");
         $elem.innerHTML = display_values[i];
         $elem.value = values[i];
+        if (values[i] === default_value && default_value != null) {
+            $elem.setAttribute("selected", true)
+        }
         $selectForm.appendChild($elem)
 
     }
@@ -96,7 +99,8 @@ function parse_request_url(base_url, month=null, origin=null, dest=null, carrier
 create_select_options(
     form_id="year-if",
     display_values=Object.values(year_names),
-    values=Object.keys(year_names));
+    values=Object.keys(year_names),
+    default_value=2018);
 
 
 create_select_options(
@@ -117,7 +121,8 @@ d3.json("data/state", function (state_data) {
     create_select_options(
         form_id="origin-state-if",
         display_values=["-- All --"],
-        values=["-- All --"]);
+        values=["-- All --"],
+        default_value="TX");
 
     create_select_options(
         form_id="dest-state-if",
@@ -127,12 +132,14 @@ d3.json("data/state", function (state_data) {
     create_select_options(
         form_id="origin-state-if",
         display_values=Object.values(state_data).map(x => x["STATE_NAME"]),
-        values=Object.keys(state_data));
+        values=Object.keys(state_data),
+        default_value="TX");
 
     create_select_options(
         form_id="dest-state-if",
         display_values=Object.values(state_data).map(x => x["STATE_NAME"]),
-        values=Object.keys(state_data));
+        values=Object.keys(state_data),
+        default_value="-- All --");
 
 });
 
@@ -142,7 +149,8 @@ d3.json("data/city", function (city_data) {
     create_select_options(
         form_id="origin-city-if",
         display_values=["-- All --"],
-        values=["-- All --"]);
+        values=["-- All --"],
+        default_value="Austin");
 
     create_select_options(
         form_id="dest-city-if",
@@ -152,7 +160,8 @@ d3.json("data/city", function (city_data) {
     create_select_options(
         form_id="origin-city-if",
         display_values=Object.keys(city_data),
-        values=Object.keys(city_data));
+        values=Object.keys(city_data),
+        default_value="Austin");
 
     create_select_options(
         form_id="dest-city-if",
