@@ -53,7 +53,7 @@ function window_load_handler() {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = "passengers";
 
     // summary cards
 
@@ -107,8 +107,9 @@ function year_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
+    console.log(indicator);
     // summary cards
     // update flowmap
     // update carrier donut chart
@@ -159,7 +160,7 @@ function month_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     // summary cards
     // update flowmap
@@ -211,7 +212,7 @@ function origin_state_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -236,7 +237,7 @@ function origin_city_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -261,7 +262,7 @@ function origin_airport_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -286,7 +287,7 @@ function dest_state_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -311,7 +312,7 @@ function dest_city_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -336,7 +337,7 @@ function dest_airport_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
 
     update_index(year, month, origin, dest, carrier, indicator)
 }
@@ -361,24 +362,48 @@ function carrier_if_change_handler(element) {
         name: null
     };
 
-    let indicator = "mail";
+    let indicator = $indicatorInput.value;
+
+    update_index(year, month, origin, dest, carrier, indicator);
+}
+
+function indicator_if_change_handler(element) {
+
+    let year = ($yearInput.value === "-- All --") ? null : $yearInput.value;
+    let month = ($monthInput.value === "-- All --") ? null : $monthInput.value;
+    let origin = {
+        country: COUNTRY,
+        state: ($originStateInput.value === "-- All --") ? null : $originStateInput.value,
+        city: ($originCityInput.value === "-- All --") ? null : $originCityInput.value,
+        airport_code: ($originAiroportInput.value === "-- All --") ? null : $originAiroportInput.value,
+    }, dest = {
+        country: COUNTRY,
+        state: ($destStateInput.value === "-- All --") ? null : $destStateInput.value,
+        city: ($destCityInput.value === "-- All --") ? null : $destCityInput.value,
+        airport_code: ($destAiroportInput.value === "-- All --") ? null : $destAiroportInput.value,
+    }, carrier = {
+        code: ($carrierInput.value === "-- All --") ? null : $carrierInput.value,
+        name: null
+    };
+
+    let indicator = element.target.value;
 
     update_index(year, month, origin, dest, carrier, indicator);
 }
 
 
-
-let indicator = "mail"
-
-window.addEventListener("load", window_load_handler)
+window.addEventListener("load", window_load_handler);
 $yearInput.addEventListener("change", year_if_change_handler);
 $monthInput.addEventListener("change", month_if_change_handler);
 $originStateInput.addEventListener("change", origin_state_if_change_handler);
-$originCityInput.addEventListener("change", origin_city_if_change_handler());
-$originAiroportInput.addEventListener("change", origin_airport_if_change_handler());
+$originCityInput.addEventListener("change", origin_city_if_change_handler);
+$originAiroportInput.addEventListener("change", origin_airport_if_change_handler);
 $destStateInput.addEventListener("change", dest_state_if_change_handler);
-$destCityInput.addEventListener("change", dest_city_if_change_handler());
-$destAiroportInput.addEventListener("change", dest_airport_if_change_handler());
-$carrierInput.addEventListener("change", carrier_if_change_handler());
+$destCityInput.addEventListener("change", dest_city_if_change_handler);
+$destAiroportInput.addEventListener("change", dest_airport_if_change_handler);
+$carrierInput.addEventListener("change", carrier_if_change_handler);
+$indicatorInput.addEventListener("change", indicator_if_change_handler);
+
+
 
 

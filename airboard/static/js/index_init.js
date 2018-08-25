@@ -20,7 +20,7 @@ var $destStateInput = document.getElementById("dest-state-if");
 var $destCityInput = document.getElementById("dest-city-if");
 var $destAiroportInput = document.getElementById("dest-airport-if");
 var $carrierInput = document.getElementById("carrier-if");
-
+var $indicatorInput = document.getElementById("indicator-if")
 
 Array.range = (start, end) => Array.from({length: (end - start)}, (v, k) => k + start);
 
